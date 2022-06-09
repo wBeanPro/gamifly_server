@@ -29,7 +29,35 @@ exports.getGamiflyWalletBalance = (req, res) => {
 		else res.send(data);
 	});
 };
-
+exports.getGamiflyWalletTransactions = (req, res) => {
+  api_model.getGamiflyWalletTransactions(req.params.user_id, (err, data) => {
+		if (err) {
+      if(err.kind == 'not_found') {
+        res.status(404).send({
+          message:
+            err.message || "Not Found."
+          });
+      }else {
+        res.status(500).send({
+        message:
+          err.message || "An error occurred during get platform wallet transactions."
+        });
+      }
+    }
+		else res.send(data);
+	});
+};
+exports.getMyNFTs = (req, res) => {
+  api_model.getMyNFTs(req.params.user_id, (err, data) => {
+		if (err) {
+      res.status(500).send({
+      message:
+        err.message || "An error occurred during get platform wallet transactions."
+      });
+    }
+		else res.send(data);
+	});
+};
 exports.getUserInfo = (req, res) => {
 	api_model.getUserInfo(req.params.user_id, (err, data) => {
 		if (err) {

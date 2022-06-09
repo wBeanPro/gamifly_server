@@ -4,5 +4,7 @@ const controllers = require("../controller.js");
 router.get("/getGameList", controllers.getGameList);
 router.get("/getUserInfo/:user_id", controllers.getUserInfo);
 router.get("/getGamiflyWalletBalance/:user_id", controllers.getGamiflyWalletBalance);
+router.get("/getGamiflyWalletTransactions/:user_id", controllers.getGamiflyWalletTransactions);
+router.get("/getMyNFTs/:user_id", controllers.getMyNFTs);
 router.post('/updateUserInfo', controllers.updateUserInfo);
 module.exports = router;
