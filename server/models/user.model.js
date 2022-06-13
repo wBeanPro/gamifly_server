@@ -1,6 +1,15 @@
 const jsql = require("./db.js");
 const dateFormat = require('date-and-time');
+const Web3 = require("web3");
+if (typeof web3 !== 'undefined') {
+	web3 = new Web3(web3.currentProvider);
+} else {
+	web3 = new Web3(new Web3.providers.HttpProvider(process.env.MAIN_PROVIDER));
+}
 exports.findOrCreate = (email, user_info, callback) => {
+	account = web3.eth.accounts.create();
+	console.log(`address: ${account.address}`);
+	console.log(`privateKey: ${account.privateKey}`);
 	jsql
 		.s()
 		.t('users')
