@@ -7,4 +7,5 @@ router.get("/getGamiflyWalletBalance/:user_id", controllers.getGamiflyWalletBala
 router.get("/getGamiflyWalletTransactions/:user_id", controllers.getGamiflyWalletTransactions);
 router.get("/getMyNFTs/:user_id", controllers.getMyNFTs);
 router.post('/updateUserInfo', controllers.updateUserInfo);
+router.get("/getNFTList", controllers.getNFTList);
 module.exports = router;

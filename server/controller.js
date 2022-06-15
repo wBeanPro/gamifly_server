@@ -87,3 +87,14 @@ exports.updateUserInfo = (req, res) => {
 		else res.send(data);
   });
 };
+
+exports.getNFTList = (req, res) => {
+  api_model.getNFTList((err, data) => {
+    if (err)
+		  res.status(500).send({
+			message:
+			  err.message || "An error occurred during get NFT list."
+		  });
+		else res.send(data);
+  });
+};

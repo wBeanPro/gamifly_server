@@ -62,3 +62,9 @@ exports.getMyNFTs = (user_id, result) => {
 		result(null, results);
 	});
 };
+exports.getNFTList = (result) => {
+	jsql.run('SELECT nft_list.*, IF(nft_purchase_list.purchase_amount is NULL, nft_list.total_amount, nft_list.total_amount - nft_purchase_list.purchase_amount) as left_amount FROM nft_list LEFT JOIN (select count(*) as purchase_amount, nft_id from nft_purchase GROUP BY nft_id) as nft_purchase_list ON nft_purchase_list.nft_id = nft_list.id', (err, results, fields) => {
+		if (err) result(err, null);
+		result(null, results);
+	});
+};
