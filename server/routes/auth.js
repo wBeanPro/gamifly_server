@@ -30,12 +30,12 @@ router.get('/facebook/callback',
 router.get('/google',
   passportGoogle.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email'] }));
 
-router.get('/google/callback',
-  passportGoogle.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    console.log("sdf");
-    // res.redirect('/users');
-  }
-);
+router.get("/google/callback", function(req, res, next) {
+  passportGoogle.authenticate("google", function(user) {
+    req.session.user_id = user.id;
+    req.session.login_status = true;
+    res.redirect("https://gamifly.co/dashboard");
+  })(req, res, next);
+});
 
 module.exports = router;

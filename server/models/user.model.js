@@ -7,9 +7,6 @@ if (typeof web3 !== 'undefined') {
 	web3 = new Web3(new Web3.providers.HttpProvider(process.env.MAIN_PROVIDER));
 }
 exports.findOrCreate = (email, user_info, callback) => {
-	account = web3.eth.accounts.create();
-	console.log(`address: ${account.address}`);
-	console.log(`privateKey: ${account.privateKey}`);
 	jsql
 		.s()
 		.t('users')
@@ -23,13 +20,25 @@ exports.findOrCreate = (email, user_info, callback) => {
 						name: user_info.name,
 						login_type: user_info.login_type,
 						wallet_address: user_info.wallet_address,
-						avatar: user_info.avatar,
+						avatar: '',
 						created: new Date(),
 						verified: 0
 					})
 					.t('users')
-					.run((err, results, fields) => {
+					.run((err, res, fields) => {
 						if (err) throw err
+						account = web3.eth.accounts.create();
+						var user_id = res.insertId;
+						jsql.i({
+							user_id: user_id,
+							public_address: account.address,
+							private_key: account.privateKey,
+							amount: 0,
+							created: new Date(),
+						}).t('users').run((err, res, fields) => {
+							if (err) throw err
+							callback({id: user_id, ...user_info });
+						});
 					})
 			}else {
 				callback(results[0]);
