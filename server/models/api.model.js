@@ -1,4 +1,11 @@
 const jsql = require("./db.js");
+exports.login = (token, result) => {
+	jsql.s().t('users').w({access_token: token}).run((err, results, fields) => {
+		if (err) result(err, null);
+		result(null, results[0]);
+	})
+};
+
 exports.getGameList = (result) => {
 	jsql
 		.s()
@@ -25,7 +32,7 @@ exports.getGamiflyWalletBalance = (user_id, result) => {
 	jsql
 		.s()
 		.t('gamifly_wallet')
-        .w({id: user_id})
+        .w({user_id: user_id})
 		.run((err, results, fields) => {
 			if (err) result(err, null);
             if (results.length==0){

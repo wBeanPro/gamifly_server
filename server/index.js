@@ -1,10 +1,12 @@
 require("dotenv").config();
 const express = require("express");
+const session = require('express-session');
 const fileUpload = require('express-fileupload');
 var auth = require('./routes/auth');
 var api = require('./routes/api');
 const PORT = process.env.PORT || 3001;
 const app = express();
+app.use(session({secret: 'secret', resave: false, saveUninitialized: false}));
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));

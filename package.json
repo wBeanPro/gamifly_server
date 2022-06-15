@@ -14,6 +14,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
     "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
     "my-jsql": "^2.2.3",
     "mysql": "^2.18.1",
     "passport": "^0.4.0",

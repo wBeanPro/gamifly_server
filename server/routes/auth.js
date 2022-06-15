@@ -2,12 +2,9 @@ var express = require('express');
 var router = express.Router();
 var passportFacebook = require('../auth/facebook');
 var passportGoogle = require('../auth/google');
-
+const controllers = require("../controller.js");
 /* LOGIN ROUTER */
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Please Sign In with:' });
-});
-
+router.post('/login', controllers.login);
 /* LOGOUT ROUTER */
 router.get('/logout', function(req, res){
   req.logout();
@@ -18,13 +15,13 @@ router.get('/logout', function(req, res){
 router.get('/facebook',
   passportFacebook.authenticate('facebook'));
 
-router.get('/facebook/callback',
-  passportFacebook.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/users');
-  }
-);
+router.get("/facebook/callback", function(req, res, next) {
+  passportGoogle.authenticate("facebook", function(user) {
+    req.session.user_id = user.id;
+    req.session.login_status = true;
+    res.redirect("https://gamifly.co/dashboard?accessToken="+user.accessToken);
+  })(req, res, next);
+});
 
 /* GOOGLE ROUTER */
 router.get('/google',
@@ -34,7 +31,7 @@ router.get("/google/callback", function(req, res, next) {
   passportGoogle.authenticate("google", function(user) {
     req.session.user_id = user.id;
     req.session.login_status = true;
-    res.redirect("https://gamifly.co/dashboard");
+    res.redirect("https://gamifly.co/dashboard?accessToken="+user.accessToken);
   })(req, res, next);
 });
 

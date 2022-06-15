@@ -9,7 +9,7 @@ passport.use(new GoogleStrategy({
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate(profile.emails[0].value, { name: profile.displayName, login_type:0, wallet_address:'' }, function (user) {
+    User.findOrCreate(profile.emails[0].value, { name: profile.displayName, login_type:0, wallet_address:'', accessToken: accessToken }, function (user) {
       return done(user);
     });
   }

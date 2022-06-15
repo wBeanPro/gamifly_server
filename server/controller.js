@@ -1,5 +1,16 @@
 const api_model = require("./models/api.model.js");
 const user_model = require("./models/user.model");
+exports.login = (req, res) => {
+  api_model.login(req.body.accessToken, (err, data) => {
+    if (err)
+		  res.status(500).send({
+			message:
+			  err.message || "An error occurred during login user."
+		  });
+		else res.send(data);
+  });
+};
+
 exports.getGameList = (req, res) => {
   api_model.getGameList((err, data) => {
     if (err)
@@ -26,7 +37,7 @@ exports.getGamiflyWalletBalance = (req, res) => {
         });
       }
     }
-		else res.send(data);
+		else res.send({value: data});
 	});
 };
 exports.getGamiflyWalletTransactions = (req, res) => {

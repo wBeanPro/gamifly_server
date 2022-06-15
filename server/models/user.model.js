@@ -21,6 +21,7 @@ exports.findOrCreate = (email, user_info, callback) => {
 						login_type: user_info.login_type,
 						wallet_address: user_info.wallet_address,
 						avatar: '',
+						access_token: user_info.accessToken,
 						created: new Date(),
 						verified: 0
 					})
@@ -35,13 +36,16 @@ exports.findOrCreate = (email, user_info, callback) => {
 							private_key: account.privateKey,
 							amount: 0,
 							created: new Date(),
-						}).t('users').run((err, res, fields) => {
+						}).t('gamifly_wallet').run((err, res, fields) => {
 							if (err) throw err
 							callback({id: user_id, ...user_info });
 						});
 					})
 			}else {
-				callback(results[0]);
+				jsql.u({access_token: user_info.accessToken}).t('users').w({id: results[0].id}).run((err, res, fields) => {
+					if (err) throw err;
+					callback({id: results[0].id, ...user_info });
+				});
 			}
 		});
 };
