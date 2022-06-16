@@ -45,7 +45,7 @@ exports.getGamiflyWalletTransactions = (user_id, result) => {
 	jsql
 		.s()
 		.t('gamifly_wallet')
-        .w({id: user_id})
+        .w({user_id: user_id})
 		.run((err, results, fields) => {
 			if (err) result(err, null);
             if (results.length==0){
